@@ -5,9 +5,9 @@ tsimmes [![npm version](https://badge.fury.io/js/tsimmes.svg)](https://badge.fur
 <img src="https://github.com/finom/tsimmes/assets/1082083/ec10294f-9b8b-4af1-9f66-a5694bacdfb5" width="450">
 </p> -->
 
-### A function for elements selection in 226 ASCII chars (less than ¼ KB)!
+### A function for elements selection in 380 ASCII chars compressed, 625 bytes uncompressed!
 
-**tsimmes** is a function that allows you to select elements on a web page. Think of it as of `document.querySelectorAll` on steroids.
+**tsimmes** is a function that allows you to select elements on a web page. Think of it as of `document.querySelectorAll` on steroids with a little bit of jQuery like stuff.
 
 ```js
 const buttons = $('.button');
@@ -103,15 +103,64 @@ const myCoolLibrary = (el) => {
 };
 ```
 
-### $.one
+### $.o
 
-Getting zero-indexed element in DOM libraries is annoying. **tsimmes** has one little static method called ``$.one`` which selects only one element.
+Getting zero-indexed element in DOM libraries is annoying. **tsimmes** has one little static method called ``$.o`` which selects only one element.
 
 ```js
-$.one('.button');
+$.o('.button');
 //vs
 $('.button')[0];
 ```
+
+### $().c
+
+Usual set css properties directly for each selected element, like this:
+
+```js
+$('.button').c({background: red});
+```
+
+### $().cls
+
+Query class list, add, remove or toggle a class for each selected element, like this:
+
+```js
+bool hasClassC = $('.button').cls('c');
+// Toggle class C
+$('.button').cls('c', -1);
+// Set class C
+$('.button').cls('c', 1); // Or true
+// Remove class C
+$('.button').cls('c', 0); // Or false
+```
+
+### $().on / $().off
+
+Add/Remove event listener for each selected element, like this:
+```js
+let preventNavigatingAway = e => e.preventDefault();
+$('a').on('click', preventNavigatingAway);
+$('a').off('click', preventNavigatingAway);
+```
+
+### $().insert()
+
+Insert element in each selected element
+```js
+$('div').insert('<a>something</a>'); // Insert a link at the end of every div
+$('div').insert('<a>something</a>', -1); // Insert a link before the first child of every div
+```
+
+### $().remove()
+
+Remove all selected element from DOM
+```js
+$('div').remove();
+```
+
+
+
 
 This function is also created to get rid of extra variables (usually DOM libraries make two vars: ``$$`` and ``$``). It means you can import **tsimmes** nicely via module system.
 

@@ -1,4 +1,5 @@
-$ = ((document, s_querySelectorAll, $) => (
+$ = ((document, s_querySelectorAll, s_EventListener, s_add, s_remove, s_classList, $, oa,fe) => (
+    (oa = Object.assign),
 	($ = (s, context, tsimmes=[]) => (
 		s && tsimmes.push( // if s is truly then push the following
 			...(s.dispatchEvent // if arg is node or window,
@@ -15,10 +16,18 @@ $ = ((document, s_querySelectorAll, $) => (
 								: tsimmes) // else pass [] (context isn't found)
 							: document[s_querySelectorAll](s) // else select elements globally
 					: s)), // else guessing that s variable is array-like Object
-        tsimmes
+		(fe = tsimmes.forEach.bind(tsimmes)),
+        oa(tsimmes, {
+        	                  c:(v)=>tsimmes.map(e=>oa(e.style,v)),
+        	                  on:(n,fn)=>fe(e=>e[s_add+s_EventListener](n, fn)),
+        	                  off:(n,fn)=>fe(e=>e[s_remove+s_EventListener](n, fn)),
+        	                  cls:(n,on)=> on == []._ ? // on is undefined, act like hasClass
+        	                  						0 in tsimmes && tsimmes.every(e=>e[s_classList].contains(n))
+        	                  					: fe(e=> !~on ? e[s_classList].toggle(n) : on ? e[s_classList][s_add](n) : e[s_classList][s_remove](n)), // else act like toggle if on is -1 or addClass if 1/true or removeClass is 0/false
+							  insert:(v,b)=>fe(e=>e.insertAdjacentHTML(!~b?'afterbegin':'beforeend',v)),
+							  remove:()=>fe(e=>e[s_remove]()),
+        	                 })
 	)),
 
-	($.one = (s, context) => $(s, context)[0]),
-
-	$
-))(document, 'querySelectorAll');
+	oa($, { o:(s, context) => $(s, context)[0]})
+))(document, 'querySelectorAll', 'EventListener', 'add', 'remove', 'classList');
