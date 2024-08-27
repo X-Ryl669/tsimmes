@@ -5,7 +5,7 @@ tsimmes [![npm version](https://badge.fury.io/js/tsimmes.svg)](https://badge.fur
 <img src="https://github.com/finom/tsimmes/assets/1082083/ec10294f-9b8b-4af1-9f66-a5694bacdfb5" width="450">
 </p> -->
 
-### A function for elements selection in 380 ASCII chars compressed, 625 bytes uncompressed!
+### A function for elements selection in 409 ASCII chars compressed, 687 bytes uncompressed!
 
 **tsimmes** is a function that allows you to select elements on a web page. Think of it as of `document.querySelectorAll` on steroids with a little bit of jQuery like stuff.
 
@@ -112,6 +112,8 @@ $.o('.button');
 //vs
 $('.button')[0];
 ```
+This function is also created to get rid of extra variables (usually DOM libraries make two vars: ``$$`` and ``$``). It means you can import **tsimmes** nicely via module system.
+
 
 ### $().c
 
@@ -135,7 +137,7 @@ $('.button').cls('c', 1); // Or true
 $('.button').cls('c', 0); // Or false
 ```
 
-### $().on / $().off
+### $().on / .off
 
 Add/Remove event listener for each selected element, like this:
 ```js
@@ -144,7 +146,7 @@ $('a').on('click', preventNavigatingAway);
 $('a').off('click', preventNavigatingAway);
 ```
 
-### $().insert()
+### $().insert
 
 Insert element in each selected element
 ```js
@@ -152,17 +154,34 @@ $('div').insert('<a>something</a>'); // Insert a link at the end of every div
 $('div').insert('<a>something</a>', -1); // Insert a link before the first child of every div
 ```
 
-### $().remove()
+### $().remove
 
 Remove all selected element from DOM
 ```js
 $('div').remove();
 ```
 
+### $().p
 
+Get or set any property for the selected elements. Special treatment for `HTML` and `Text` that get/set `innerHTML` / `innerText` respectively
+```js
+$('input[type=text]').p('value'); // Return an array of all el.value
+$('div').p('innerHTML', '<p>Hello world</p>'); // Replace the content of all div with a paragraph containing "Hello world"
+$('div').p('innerText'); // Get an array of the inner text of all div
+$('div').p('textContent', ''); // Empty all div
+```
 
+Example usage for serializing a form to url encoded value
+```js
+let inputs = $('input');
+let i = { v: inputs.p('value'), n: inputs.p('name') };
+let ser = i.n.reduce((a,e,k)=>[...a,encodeURIComponent(e)+'='+encodeURIComponent(i.v[k])],[]).join('&')
+```
+Or, even shorter:
+```js
+$('input').map(i=>encodeURIComponent(i.name)+'='+encodeURIComponent(i.value)).join('&')
+```
 
-This function is also created to get rid of extra variables (usually DOM libraries make two vars: ``$$`` and ``$``). It means you can import **tsimmes** nicely via module system.
 
 **AMD**
 ```js
