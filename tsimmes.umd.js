@@ -1,7 +1,7 @@
 {
-	let $ = ((document, s_querySelectorAll, s_EventListener, s_add, s_remove, s_classList, $, oa,fe,sa,un) => (
+	let $ = ((document, s_querySelectorAll, s_EventListener, s_add, s_remove, s_classList, $, oa,un) => (
     (oa = Object.assign),
-	($ = (s, context, tsimmes=[]) => (
+	($ = (s, context, tsimmes=[],fe) => (
 		s && tsimmes.push( // if s is truly then push the following
 			...(s.dispatchEvent // if arg is node or window,
 				? [s] // then pass [s]

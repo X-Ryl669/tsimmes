@@ -5,7 +5,7 @@ tsimmes [![npm version](https://badge.fury.io/js/tsimmes.svg)](https://badge.fur
 <img src="https://github.com/finom/tsimmes/assets/1082083/ec10294f-9b8b-4af1-9f66-a5694bacdfb5" width="450">
 </p> -->
 
-### A function for elements selection in 409 ASCII chars compressed, 687 bytes uncompressed!
+### A function for elements selection in 389 byte compressed, 685 ASCII chars uncompressed!
 
 **tsimmes** is a function that allows you to select elements on a web page. Think of it as of `document.querySelectorAll` on steroids with a little bit of jQuery like stuff.
 
