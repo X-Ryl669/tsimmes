@@ -1,6 +1,8 @@
-$ = ((document, s_querySelectorAll, s_EventListener, s_add, s_remove, s_classList, $, oa,un) => (
+$ = ((s_querySelectorAll, s_EventListener, s_add, s_remove, s_classList, $, oa,sl,un) => (
     (oa = Object.assign),
-	($ = (s, context, tsimmes=[],fe) => (
+	(sl = (a,r) => r? [a[r|0]] : a),
+	($ = (s, context, tsimmes=[],fe,re,c,b) => (
+		(c = (b = context && $(context)[0]) || document), // b contains the context if not bad and c the operator
 		s && tsimmes.push( // if s is truly then push the following
 			...(s.dispatchEvent // if arg is node or window,
 				? [s] // then pass [s]
@@ -10,11 +12,8 @@ $ = ((document, s_querySelectorAll, s_EventListener, s_add, s_remove, s_classLis
 						// use 'undefined' (HTMLUnknownElement) if context is not presented
 						? ((context = document.createElement(context)).innerHTML = s
 							, context.children)
-						: context // else if context is truly
-							? ((context = $(context)[0]) // if context element is found
-								? context[s_querySelectorAll](s) // then select element from context
-								: tsimmes) // else pass [] (context isn't found)
-							: document[s_querySelectorAll](s) // else select elements globally
+					    : (re = s.match(/(.*?)(\[(\d+)\]$|$)/), // Extract the selector from the array index if any
+						    !b ? sl(c[s_querySelectorAll](re[1]), re[3]) : tsimmes) // And query/filter the resulting list or empty array if bad context
 					: s)), // else guessing that s variable is array-like Object
 		(fe = tsimmes.forEach.bind(tsimmes)),
         oa(tsimmes, {
@@ -31,4 +30,4 @@ $ = ((document, s_querySelectorAll, s_EventListener, s_add, s_remove, s_classLis
 	)),
 
 	oa($, { o:(s, context) => $(s, context)[0]})
-))(document, 'querySelectorAll', 'EventListener', 'add', 'remove', 'classList');
+))('querySelectorAll', 'EventListener', 'add', 'remove', 'classList');
