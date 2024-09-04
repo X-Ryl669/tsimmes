@@ -163,7 +163,7 @@ $('div').remove();
 
 ### $().p
 
-Get or set any property for the selected elements. Special treatment for `HTML` and `Text` that get/set `innerHTML` / `innerText` respectively
+Get or set any property for the selected elements.
 ```js
 $('input[type=text]').p('value'); // Return an array of all el.value
 $('div').p('innerHTML', '<p>Hello world</p>'); // Replace the content of all div with a paragraph containing "Hello world"
@@ -209,7 +209,7 @@ import $ from 'tsimmes';
 ```js
 const elements = $('.my-selector', someParent);
 // or
-const element = $.one('.my-selector', someParent);
+const element = $.o('.my-selector', someParent);
 ```
 
 
@@ -234,13 +234,18 @@ for(let element of $('.my-selector')) {
 }
 ```
 
-In case if you need to set style only for one element you can use ``$.one``.
+In case if you need to set style only for one element you can use ``$.o``.
 
 ```js
-$.one('.my-selector').style.color = 'red';
+$.o('.my-selector').style.color = 'red';
 ```
 
 ### Events delegation
+
+```js
+$('.my-selector').on(e => this.contains(e.target.closest('.delegated-selector')) && alert('yep'));
+```
+Or
 ```js
 for(let element of $('.my-selector')) {
     element.addEventListener('click', function ({ target }) {
@@ -252,14 +257,19 @@ for(let element of $('.my-selector')) {
 ```
 Or
 ```js
-$.one('.my-selector').addEventListener('click', function ({ target }) {
+$.o('.my-selector').addEventListener('click', function ({ target }) {
     if (this.contains(target.closest('.delegated-selector'))) {
         alert('yep!');
     }
 });
 ```
 
+
 ### Elements removal
+```js
+$('.my-selector').remove()
+```
+Or
 ```js
 for(let element of $('.my-selector')) {
     element.remove();
@@ -267,13 +277,23 @@ for(let element of $('.my-selector')) {
 ```
 Or
 ```js
-$.one('.my-selector').remove();
+$.o('.my-selector').remove();
 ```
+
+### Sub element usage
+
+If you need to use some method on only some elements from the selected list:
+```js
+$($('div')[3]).c({background: red})
+$($('input[type=checkbox]')[2]).p('checked', true)
+$($('ul li.active').slice(3, 6)).cls('active', 0)
+```
+
 
 ### Animations
 Use [element.animate](https://developers.google.com/web/updates/2014/05/Web-Animations-element.animate-is-now-in-Chrome-36) for smooth GPU-accelerated animations. You may need [polyfill for Web Animations API](https://github.com/web-animations/web-animations-js).
 ```js
-$.one('.my-selector').animate({
+$.o('.my-selector').animate({
     opacity: [0.5, 1],
     transform: ['scale(0.5)', 'scale(1)'],
 }, {
